@@ -4,73 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>固定ToDoリスト</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <h1>ToDoリスト</h1>
-        
-        <div>
-            <h2>仕事</h2>
-            <ul>
-                <li>
-                    <input type="checkbox" id="task1">
-                    <label for="task1">メールチェック</label>
+    <header>
+        <h1 id="main-title">ToDoリスト</h1>
+    </header>
+    
+    <main id="main-container">
+        <section class="todo-category work-category">
+            <h2 class="category-title">仕事</h2>
+            <ul class="task-list">
+                <li class="task-item">
+                    <input type="checkbox" id="task1" class="task-checkbox">
+                    <label for="task1" class="task-label">メールチェック</label>
                 </li>
-                <li>
-                    <input type="checkbox" id="task2">
-                    <label for="task2">日報作成</label>
+                <li class="task-item">
+                    <input type="checkbox" id="task2" class="task-checkbox">
+                    <label for="task2" class="task-label">日報作成</label>
                 </li>
-                <li>
-                    <input type="checkbox" id="task3">
-                    <label for="task3">会議資料準備</label>
-                </li>
-            </ul>
-        </div>
-
-        <div>
-            <h2>プライベート</h2>
-            <ul>
-                <li>
-                    <input type="checkbox" id="task4">
-                    <label for="task4">運動する</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task5">
-                    <label for="task5">読書時間</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task6">
-                    <label for="task6">家族と時間を過ごす</label>
+                <li class="task-item">
+                    <input type="checkbox" id="task3" class="task-checkbox">
+                    <label for="task3" class="task-label">会議資料準備</label>
                 </li>
             </ul>
-        </div>
+        </section>
 
-        <div>
-            <h2>買い物</h2>
-            <ul>
-                <li>
-                    <input type="checkbox" id="task7">
-                    <label for="task7">牛乳</label>
+        <section class="todo-category private-category">
+            <h2 class="category-title">プライベート</h2>
+            <ul class="task-list">
+                <li class="task-item">
+                    <input type="checkbox" id="task4" class="task-checkbox">
+                    <label for="task4" class="task-label">運動する</label>
                 </li>
-                <li>
-                    <input type="checkbox" id="task8">
-                    <label for="task8">パン</label>
+                <li class="task-item">
+                    <input type="checkbox" id="task5" class="task-checkbox">
+                    <label for="task5" class="task-label">読書時間</label>
                 </li>
-                <li>
-                    <input type="checkbox" id="task9">
-                    <label for="task9">野菜</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task10">
-                    <label for="task10">卵</label>
+                <li class="task-item">
+                    <input type="checkbox" id="task6" class="task-checkbox">
+                    <label for="task6" class="task-label">家族と時間を過ごす</label>
                 </li>
             </ul>
-        </div>
+        </section>
 
-        <div>
-            <button type="button">すべてクリア</button>
-            <button type="button">完了済みを非表示</button>
-        </div>
-    </div>
+        <section class="todo-category shopping-category">
+            <h2 class="category-title">買い物</h2>
+            <ul class="task-list">
+                <li class="task-item">
+                    <input type="checkbox" id="task7" class="task-checkbox">
+                    <label for="task7" class="task-label">牛乳</label>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" id="task8" class="task-checkbox">
+                    <label for="task8" class="task-label">パン</label>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" id="task9" class="task-checkbox">
+                    <label for="task9" class="task-label">野菜</label>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" id="task10" class="task-checkbox">
+                    <label for="task10" class="task-label">卵</label>
+                </li>
+            </ul>
+        </section>
+
+        <footer class="button-container">
+            <button type="button" class="action-button clear-button">すべてクリア</button>
+            <button type="button" class="action-button hide-button">完了済みを非表示</button>
+        </footer>
+    </main>
 </body>
 </html>

@@ -1,0 +1,217 @@
+/* CSS基礎学習用スタイル */
+
+/* リセットCSS - ブラウザデフォルトスタイルを統一 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 基本スタイル - body要素セレクタ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* IDセレクタ - メインタイトル */
+#main-title {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* IDセレクタ - メインコンテナ */
+#main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    grid-template-rows: auto auto auto auto;
+}
+
+/* クラスセレクタ - カテゴリ共通スタイル */
+.todo-category {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 疑似クラス - ホバー効果 */
+.todo-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* カテゴリ別色分け - クラスセレクタの組み合わせ */
+.work-category {
+    border-left: 5px solid #3498db;
+}
+
+.private-category {
+    border-left: 5px solid #2ecc71;
+}
+
+.shopping-category {
+    border-left: 5px solid #f39c12;
+}
+
+/* クラスセレクタ - カテゴリタイトル */
+.category-title {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 0.5rem;
+}
+
+/* クラスセレクタ - タスクリスト */
+.task-list {
+    list-style: none;
+}
+
+/* クラスセレクタ - タスクアイテム */
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #ecf0f1;
+    transition: background-color 0.2s ease;
+}
+
+/* 疑似クラス - 最後の要素のボーダーを削除 */
+.task-item:last-child {
+    border-bottom: none;
+}
+
+/* 疑似クラス - タスクアイテムのホバー効果 */
+.task-item:hover {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* クラスセレクタ - チェックボックス */
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.8rem;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+/* クラスセレクタ - タスクラベル */
+.task-label {
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    user-select: none;
+}
+
+/* 疑似クラス - チェック済みタスクのスタイル */
+.task-checkbox:checked + .task-label {
+    text-decoration: line-through;
+    color: #7f8c8d;
+    opacity: 0.7;
+}
+
+/* 疑似クラス - フォーカス時のスタイル */
+.task-checkbox:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* クラスセレクタ - ボタンコンテナ */
+.button-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* クラスセレクタ - アクションボタン */
+.action-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+/* クラスセレクタ - クリアボタン */
+.clear-button {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+/* クラスセレクタ - 非表示ボタン */
+.hide-button {
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    color: white;
+}
+
+/* 疑似クラス - ボタンのホバー効果 */
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 疑似クラス - ボタンのアクティブ状態 */
+.action-button:active {
+    transform: translateY(0);
+}
+
+/* レスポンシブデザイン - メディアクエリ */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    #main-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    #main-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .todo-category {
+        padding: 1rem;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-button {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-title {
+        font-size: 1.5rem;
+    }
+    
+    .category-title {
+        font-size: 1.2rem;
+    }
+    
+    .task-label {
+        font-size: 0.9rem;
+    }
+}
