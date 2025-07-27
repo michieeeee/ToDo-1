@@ -9,71 +9,273 @@
 <body>
     <header>
         <h1 id="main-title">ToDoリスト</h1>
+        <div class="category-management">
+            <div class="add-category-form">
+                <input type="text" id="category-name-input" placeholder="新しいカテゴリ名を入力">
+                <select id="category-color-select">
+                    <option value="#3498db">青</option>
+                    <option value="#2ecc71">緑</option>
+                    <option value="#f39c12">オレンジ</option>
+                    <option value="#e74c3c">赤</option>
+                    <option value="#9b59b6">紫</option>
+                    <option value="#34495e">グレー</option>
+                </select>
+                <button type="button" id="add-category-btn">カテゴリ追加</button>
+            </div>
+        </div>
     </header>
     
     <main id="main-container">
-        <section class="todo-category work-category">
-            <h2 class="category-title">仕事</h2>
-            <ul class="task-list">
-                <li class="task-item">
-                    <input type="checkbox" id="task1" class="task-checkbox">
-                    <label for="task1" class="task-label">メールチェック</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task2" class="task-checkbox">
-                    <label for="task2" class="task-label">日報作成</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task3" class="task-checkbox">
-                    <label for="task3" class="task-label">会議資料準備</label>
-                </li>
-            </ul>
-        </section>
-
-        <section class="todo-category private-category">
-            <h2 class="category-title">プライベート</h2>
-            <ul class="task-list">
-                <li class="task-item">
-                    <input type="checkbox" id="task4" class="task-checkbox">
-                    <label for="task4" class="task-label">運動する</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task5" class="task-checkbox">
-                    <label for="task5" class="task-label">読書時間</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task6" class="task-checkbox">
-                    <label for="task6" class="task-label">家族と時間を過ごす</label>
-                </li>
-            </ul>
-        </section>
-
-        <section class="todo-category shopping-category">
-            <h2 class="category-title">買い物</h2>
-            <ul class="task-list">
-                <li class="task-item">
-                    <input type="checkbox" id="task7" class="task-checkbox">
-                    <label for="task7" class="task-label">牛乳</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task8" class="task-checkbox">
-                    <label for="task8" class="task-label">パン</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task9" class="task-checkbox">
-                    <label for="task9" class="task-label">野菜</label>
-                </li>
-                <li class="task-item">
-                    <input type="checkbox" id="task10" class="task-checkbox">
-                    <label for="task10" class="task-label">卵</label>
-                </li>
-            </ul>
-        </section>
+        <!-- カテゴリは JavaScript で動的に生成されます -->
 
         <footer class="button-container">
             <button type="button" class="action-button clear-button">すべてクリア</button>
             <button type="button" class="action-button hide-button">完了済みを非表示</button>
         </footer>
     </main>
+
+    <script>
+        // カテゴリデータ管理
+        let categoryIdCounter = 4; // 次のカテゴリID
+        let categories = [
+            {id: 'work', name: '仕事', color: '#3498db'},
+            {id: 'private', name: 'プライベート', color: '#2ecc71'},
+            {id: 'shopping', name: '買い物', color: '#f39c12'}
+        ];
+
+        // タスクデータ管理
+        let taskIdCounter = 11; // 次のタスクID（既存が1-10なので11から）
+        let tasks = [
+            {id: 1, text: "メールチェック", completed: false, category: "work"},
+            {id: 2, text: "日報作成", completed: false, category: "work"},
+            {id: 3, text: "会議資料準備", completed: false, category: "work"},
+            {id: 4, text: "運動する", completed: false, category: "private"},
+            {id: 5, text: "読書時間", completed: false, category: "private"},
+            {id: 6, text: "家族と時間を過ごす", completed: false, category: "private"},
+            {id: 7, text: "牛乳", completed: false, category: "shopping"},
+            {id: 8, text: "パン", completed: false, category: "shopping"},
+            {id: 9, text: "野菜", completed: false, category: "shopping"},
+            {id: 10, text: "卵", completed: false, category: "shopping"}
+        ];
+
+        // カテゴリを追加する関数
+        function addCategory(name, color) {
+            if (name.trim() === '') return; // 空文字チェック
+
+            const newCategory = {
+                id: 'category_' + categoryIdCounter++,
+                name: name.trim(),
+                color: color
+            };
+            
+            categories.push(newCategory);
+            renderCategory(newCategory);
+        }
+
+        // カテゴリを削除する関数
+        function deleteCategory(categoryId) {
+            if (confirm(`「${categories.find(c => c.id === categoryId)?.name}」カテゴリとそのタスクをすべて削除しますか？`)) {
+                // カテゴリ内のタスクをすべて削除
+                tasks = tasks.filter(task => task.category !== categoryId);
+                
+                // カテゴリをデータから削除
+                categories = categories.filter(category => category.id !== categoryId);
+                
+                // 画面からカテゴリを削除
+                document.querySelector(`[data-category="${categoryId}"]`).remove();
+            }
+        }
+
+        // カテゴリ全体をHTMLで生成する関数
+        function renderCategory(category) {
+            const mainContainer = document.getElementById('main-container');
+            const buttonContainer = document.querySelector('.button-container');
+            
+            const categoryElement = document.createElement('section');
+            categoryElement.className = 'todo-category';
+            categoryElement.style.borderLeftColor = category.color;
+            categoryElement.setAttribute('data-category', category.id);
+            
+            categoryElement.innerHTML = `
+                <div class="category-header">
+                    <h2 class="category-title">${category.name}</h2>
+                    <button class="delete-category-btn" onclick="deleteCategory('${category.id}')">削除</button>
+                </div>
+                <div class="add-task-form">
+                    <input type="text" class="task-input" placeholder="新しいタスクを入力">
+                    <button type="button" class="add-task-btn">追加</button>
+                </div>
+                <ul class="task-list"></ul>
+            `;
+            
+            // ボタンコンテナの前に挿入
+            mainContainer.insertBefore(categoryElement, buttonContainer);
+            
+            // 既存のタスクがあれば表示
+            const categoryTasks = tasks.filter(task => task.category === category.id);
+            categoryTasks.forEach(task => renderTask(task));
+        }
+
+        // すべてのカテゴリを初期表示する関数
+        function renderAllCategories() {
+            categories.forEach(category => renderCategory(category));
+        }
+
+        // 新しいタスクを追加する関数
+        function addTask(category, text) {
+            if (text.trim() === '') return; // 空文字チェック
+
+            const newTask = {
+                id: taskIdCounter++,
+                text: text.trim(),
+                completed: false,
+                category: category
+            };
+            
+            tasks.push(newTask);
+            renderTask(newTask); // 新しいタスクだけを画面に追加
+        }
+
+        // タスクを削除する関数
+        function deleteTask(taskId) {
+            tasks = tasks.filter(task => task.id !== taskId);
+            document.querySelector(`[data-task-id="${taskId}"]`).remove();
+        }
+
+        // タスクの完了状態を切り替える関数
+        function toggleTask(taskId) {
+            const task = tasks.find(task => task.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                updateTaskDisplay(taskId, task.completed);
+            }
+        }
+
+        // 新しいタスクを画面に追加する関数
+        function renderTask(task) {
+            const taskList = document.querySelector(`[data-category="${task.category}"] .task-list`);
+            const taskElement = document.createElement('li');
+            taskElement.className = 'task-item';
+            taskElement.setAttribute('data-task-id', task.id);
+            
+            taskElement.innerHTML = `
+                <input type="checkbox" id="task${task.id}" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+                <label for="task${task.id}" class="task-label">${task.text}</label>
+                <button class="delete-task-btn">×</button>
+            `;
+            
+            taskList.appendChild(taskElement);
+        }
+
+        // タスクの表示を更新する関数
+        function updateTaskDisplay(taskId, completed) {
+            const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+            const checkbox = taskElement.querySelector('.task-checkbox');
+            checkbox.checked = completed;
+        }
+
+        // すべてのタスクをクリアする関数
+        function clearAllTasks() {
+            tasks = []; // タスク配列を空にする
+            // 画面からすべてのタスクを削除
+            document.querySelectorAll('.task-item').forEach(item => {
+                item.remove();
+            });
+        }
+
+        // 完了済みタスクの表示/非表示を切り替える関数
+        let isHidingCompleted = false;
+        function toggleCompletedTasks() {
+            const hideButton = document.querySelector('.hide-button');
+            
+            if (isHidingCompleted) {
+                // 完了済みタスクを表示
+                document.querySelectorAll('.task-item').forEach(item => {
+                    item.style.display = '';
+                });
+                hideButton.textContent = '完了済みを非表示';
+                isHidingCompleted = false;
+            } else {
+                // 完了済みタスクを非表示
+                document.querySelectorAll('.task-item').forEach(item => {
+                    const checkbox = item.querySelector('.task-checkbox');
+                    if (checkbox.checked) {
+                        item.style.display = 'none';
+                    }
+                });
+                hideButton.textContent = '完了済みを表示';
+                isHidingCompleted = true;
+            }
+        }
+
+        // イベントリスナーの設定
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初期カテゴリを表示
+            renderAllCategories();
+
+            // カテゴリ追加ボタンのクリックイベント
+            document.getElementById('add-category-btn').addEventListener('click', function() {
+                const nameInput = document.getElementById('category-name-input');
+                const colorSelect = document.getElementById('category-color-select');
+                addCategory(nameInput.value, colorSelect.value);
+                nameInput.value = ''; // 入力欄をクリア
+            });
+
+            // カテゴリ追加の入力欄でEnterキー
+            document.getElementById('category-name-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const colorSelect = document.getElementById('category-color-select');
+                    addCategory(this.value, colorSelect.value);
+                    this.value = ''; // 入力欄をクリア
+                }
+            });
+
+            // 動的要素のイベント委譲
+            document.addEventListener('click', function(e) {
+                // タスク追加ボタンのクリック
+                if (e.target.classList.contains('add-task-btn')) {
+                    const category = e.target.closest('.todo-category').getAttribute('data-category');
+                    const input = e.target.closest('.todo-category').querySelector('.task-input');
+                    addTask(category, input.value);
+                    input.value = ''; // 入力欄をクリア
+                }
+                
+                // タスク削除ボタンのクリック
+                if (e.target.classList.contains('delete-task-btn')) {
+                    const taskId = parseInt(e.target.closest('.task-item').getAttribute('data-task-id'));
+                    deleteTask(taskId);
+                }
+            });
+
+            // タスク入力欄のEnterキーイベント（動的要素対応）
+            document.addEventListener('keypress', function(e) {
+                if (e.target.classList.contains('task-input') && e.key === 'Enter') {
+                    const category = e.target.closest('.todo-category').getAttribute('data-category');
+                    addTask(category, e.target.value);
+                    e.target.value = ''; // 入力欄をクリア
+                }
+            });
+
+            // チェックボックスの変更イベント
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('task-checkbox')) {
+                    const taskId = parseInt(e.target.closest('.task-item').getAttribute('data-task-id'));
+                    toggleTask(taskId);
+                }
+            });
+
+            // すべてクリアボタン
+            document.querySelector('.clear-button').addEventListener('click', function() {
+                if (confirm('すべてのタスクを削除しますか？')) {
+                    clearAllTasks();
+                }
+            });
+
+            // 完了済みを非表示ボタン
+            document.querySelector('.hide-button').addEventListener('click', function() {
+                toggleCompletedTasks();
+            });
+        });
+    </script>
 </body>
 </html>

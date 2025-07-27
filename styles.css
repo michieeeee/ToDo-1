@@ -40,6 +40,7 @@ body {
 .todo-category {
     background: white;
     border-radius: 15px;
+    border-left: 5px solid transparent; /* デフォルトのボーダー設定 */
     padding: 1.5rem;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -51,18 +52,7 @@ body {
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
-/* カテゴリ別色分け - クラスセレクタの組み合わせ */
-.work-category {
-    border-left: 5px solid #3498db;
-}
-
-.private-category {
-    border-left: 5px solid #2ecc71;
-}
-
-.shopping-category {
-    border-left: 5px solid #f39c12;
-}
+/* カテゴリ別色分けは JavaScript で動的に設定 */
 
 /* クラスセレクタ - カテゴリタイトル */
 .category-title {
@@ -200,6 +190,24 @@ body {
         width: 100%;
         max-width: 250px;
     }
+
+    .add-category-form {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #category-name-input {
+        min-width: auto;
+        width: 100%;
+    }
+
+    #category-color-select {
+        width: 100%;
+    }
+
+    #add-category-btn {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -214,4 +222,138 @@ body {
     .task-label {
         font-size: 0.9rem;
     }
+}
+
+/* タスク追加フォーム */
+.add-task-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+}
+
+.task-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 2px solid #ecf0f1;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.task-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.add-task-btn {
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-task-btn:hover {
+    background: #2980b9;
+}
+
+/* 削除ボタン */
+.delete-task-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-task-btn:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+/* カテゴリ管理 */
+.category-management {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.add-category-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+#category-name-input {
+    padding: 0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
+#category-color-select {
+    padding: 0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+}
+
+#add-category-btn {
+    padding: 0.5rem 1rem;
+    background: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#add-category-btn:hover {
+    background: #27ae60;
+}
+
+/* カテゴリ削除ボタン */
+.delete-category-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.delete-category-btn:hover {
+    background: #c0392b;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 0.5rem;
 }
